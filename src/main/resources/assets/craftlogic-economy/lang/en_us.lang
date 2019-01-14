@@ -1,0 +1,22 @@
+tooltip.balance=Balance: %s %s
+
+commands.economy.disabled=Economy is disabled!
+commands.economy.not_enough=You do not have enough money! You need: %s
+commands.economy.set=Set %s's balance to %s
+commands.economy.given=Given %s to %s' account
+commands.economy.taken=Taken %s from %s' account
+commands.economy.usage=/eco <give|take|set> <player> <sum>
+
+commands.pay.sent=You have sent %s to %s
+commands.pay.received=You have received %s from %s
+commands.pay.usage=/pay <receiver> <sum>
+commands.pay.self=You cannot send money to yourself!
+
+commands.baltop.usage=/baltop [size]
+commands.baltop.header=-- Top %d rich players --
+commands.baltop.entry=%d. %s: %s
+commands.baltop.empty=No accounts
+
+commands.balance.usage=/balance [username]
+commands.balance.other=%s's balance: %s
+commands.balance=Your balance: %s

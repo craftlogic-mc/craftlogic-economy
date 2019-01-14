@@ -1,0 +1,22 @@
+tooltip.balance=Баланс: %s %s
+
+commands.economy.disabled=Экономика отключена!
+commands.economy.not_enough=У вас недостаточно денег! Вам не хватает: %s
+commands.economy.set=Баланс игрока %s установлен на %s
+commands.economy.given=Зачислено %s на счёт игрока %s
+commands.economy.taken=Снято %s со счёта игрока %s
+commands.economy.usage=/eco <give|take|set> <игрок> <сумма>
+
+commands.pay.sent=Вы отправили %s игроку %s
+commands.pay.received=Вы получили %s от игрока %s
+commands.pay.usage=/pay <получатель> <сумма>
+commands.pay.self=Вы не можете отправлять деньги самому себе!
+
+commands.baltop.usage=/baltop [размер]
+commands.baltop.header=-- Топ %d богатых игроков --
+commands.baltop.entry=%d. %s: %s
+commands.baltop.empty=Нет аккаунтов
+
+commands.balance.usage=/balance [игрок]
+commands.balance.other=Баланс игрока %s: %s
+commands.balance=Ваш баланс: %s
