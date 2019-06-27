@@ -118,9 +118,7 @@ public class EconomyCommands implements CommandRegistrar {
     }
 
     @Command(name = "economy", syntax = {
-        "give <target:OfflinePlayer> <amount>",
-        "take <target:OfflinePlayer> <amount>",
-        "set <target:OfflinePlayer> <amount>"
+        "give|take|set <target:OfflinePlayer> <amount>",
     }, aliases = "eco", serverOnly = true, opLevel = 3)
     public static void commandEco(CommandContext ctx) throws CommandException {
         EconomyManager economyManger = (EconomyManager) ctx.server().getEconomyManager();
@@ -131,7 +129,7 @@ public class EconomyCommands implements CommandRegistrar {
         OfflinePlayer target = ctx.get("target").asOfflinePlayer();
         float amount = economyManger.roundUpToFormat(ctx.get("amount").asFloat(0, Float.MAX_VALUE));
 
-        switch (ctx.constant()) {
+        switch (ctx.action(0)) {
             case "give": {
                 economyManger.give(target, amount);
                 Text<?, ?> a = economyManger.format(amount).darkGray();
