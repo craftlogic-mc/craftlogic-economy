@@ -14,6 +14,9 @@ import ru.craftlogic.api.text.Text;
 import ru.craftlogic.api.util.ConfigurableManager;
 import ru.craftlogic.api.world.Player;
 import ru.craftlogic.common.command.CommandManager;
+import ru.craftlogic.economy.common.commands.CommandBalance;
+import ru.craftlogic.economy.common.commands.CommandBalanceTop;
+import ru.craftlogic.economy.common.commands.CommandPay;
 import ru.craftlogic.economy.network.message.MessageBalance;
 
 import java.io.IOException;
@@ -46,7 +49,9 @@ public class EconomyManager extends ConfigurableManager implements ru.craftlogic
 
     @Override
     public void registerCommands(CommandManager commandManager) {
-        commandManager.registerCommandContainer(EconomyCommands.class);
+        commandManager.registerCommand(new CommandPay());
+        commandManager.registerCommand(new CommandBalance());
+        commandManager.registerCommand(new CommandBalanceTop());
     }
 
     @Override
