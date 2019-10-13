@@ -49,9 +49,11 @@ public class EconomyManager extends ConfigurableManager implements ru.craftlogic
 
     @Override
     public void registerCommands(CommandManager commandManager) {
-        commandManager.registerCommand(new CommandPay());
-        commandManager.registerCommand(new CommandBalance());
-        commandManager.registerCommand(new CommandBalanceTop());
+        if (server.isDedicated()) {
+            commandManager.registerCommand(new CommandPay());
+            commandManager.registerCommand(new CommandBalance());
+            commandManager.registerCommand(new CommandBalanceTop());
+        }
     }
 
     @Override
