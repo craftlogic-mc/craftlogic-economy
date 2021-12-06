@@ -1,14 +1,16 @@
 package ru.craftlogic.economy;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.JsonUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.craftlogic.api.CraftAPI;
 import ru.craftlogic.api.server.Server;
 import ru.craftlogic.api.text.Text;
 import ru.craftlogic.api.util.ConfigurableManager;
@@ -16,20 +18,24 @@ import ru.craftlogic.api.world.Player;
 import ru.craftlogic.common.command.CommandManager;
 import ru.craftlogic.economy.common.commands.CommandBalance;
 import ru.craftlogic.economy.common.commands.CommandBalanceTop;
+import ru.craftlogic.economy.common.commands.CommandEconomy;
 import ru.craftlogic.economy.common.commands.CommandPay;
 import ru.craftlogic.economy.network.message.MessageBalance;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class EconomyManager extends ConfigurableManager implements ru.craftlogic.api.economy.EconomyManager {
     private static final Logger LOGGER = LogManager.getLogger("EconomyManager");
-
+    public final Map<ResourceLocation, Float> drops = new HashMap<>();
     private final AccountManager accountManager;
-    private boolean enabled;
     private final String format = "%.2f";
+    private boolean enabled;
     private String currency;
 
     public EconomyManager(Server server, Path settingsDirectory) {
@@ -53,6 +59,10 @@ public class EconomyManager extends ConfigurableManager implements ru.craftlogic
             commandManager.registerCommand(new CommandPay());
             commandManager.registerCommand(new CommandBalance());
             commandManager.registerCommand(new CommandBalanceTop());
+            commandManager.registerCommand(new CommandEconomy());
+            commandManager.registerArgumentType("EntityId", true, ctx ->
+                EntityList.getEntityNameList().stream().map(ResourceLocation::toString).collect(Collectors.toSet())
+            );
         }
     }
 
@@ -60,6 +70,15 @@ public class EconomyManager extends ConfigurableManager implements ru.craftlogic
     protected void load(JsonObject config) {
         this.enabled = JsonUtils.getBoolean(config, "enabled", false);
         this.currency = JsonUtils.getString(config, "currency");
+        if (config.has("drops")) {
+            JsonObject drops = JsonUtils.getJsonObject(config, "drops");
+            for (Map.Entry<String, JsonElement> e : drops.entrySet()) {
+                ResourceLocation mobName = new ResourceLocation(e.getKey());
+                float money = e.getValue().getAsFloat();
+                this.drops.put(mobName, money);
+            }
+        }
+
 
         try {
             this.accountManager.load();
@@ -72,6 +91,12 @@ public class EconomyManager extends ConfigurableManager implements ru.craftlogic
     protected void save(JsonObject config) {
         config.addProperty("enabled", this.enabled);
         config.addProperty("currency", this.currency);
+        JsonObject drops = new JsonObject();
+        for (Map.Entry<ResourceLocation, Float> e : this.drops.entrySet()) {
+            drops.addProperty(e.getKey().toString(), e.getValue());
+        }
+        config.add("drops", drops);
+
 
         try {
             this.accountManager.save(true);
