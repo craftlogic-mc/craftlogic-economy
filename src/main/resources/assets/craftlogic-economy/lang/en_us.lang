@@ -1,5 +1,7 @@
 tooltip.balance=Balance: %s %s
 
+block.trading_post.name=Trading post
+
 commands.economy.disabled=Economy is disabled!
 commands.economy.not_enough=You do not have enough money! You need: %s
 commands.economy.set=Set %s's balance to %s

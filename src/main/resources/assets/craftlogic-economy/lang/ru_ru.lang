@@ -1,5 +1,7 @@
 tooltip.balance=Баланс: %s %s
 
+block.trading_post.name=Торговая лавка
+
 commands.economy.disabled=Экономика отключена!
 commands.economy.not_enough=У вас недостаточно денег! Вам не хватает: %s
 commands.economy.set=Баланс игрока %s установлен на %s

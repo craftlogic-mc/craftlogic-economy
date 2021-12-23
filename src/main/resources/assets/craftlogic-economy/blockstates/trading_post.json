@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "craftlogic-economy:trading_post" }
+    }
+}

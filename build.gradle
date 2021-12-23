@@ -41,14 +41,26 @@ minecraft {
 }
 
 runClient {
+    jvmArgs '-Dfml.coreMods.load=ru.craftlogic.coremod.CraftLogicCoremod'
     args '--username', project.username
 }
 
 repositories {
+    maven {
+        name = 'spongepowered'
+        url = 'https://repo.spongepowered.org/maven/'
+    }
     mavenCentral()
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.spongepowered/mixin
+    compile(group: 'org.spongepowered', name: 'mixin', version: project.mixin_version) {
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
+    }
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -87,5 +99,14 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+jar {
+    manifest {
+        def a = [
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                'TweakOrder': '0'
+        ]
+        attributes (a)
     }
 }

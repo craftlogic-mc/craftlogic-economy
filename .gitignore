@@ -1,4 +1,5 @@
-.idea/*
-build/*
-run/*
-libs/*
+/.idea
+/build
+/run
+/libs
+/.gradle

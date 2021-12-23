@@ -11,9 +11,12 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import ru.craftlogic.api.CraftSounds;
+import ru.craftlogic.api.CraftTileEntities;
 import ru.craftlogic.api.network.AdvancedMessage;
 import ru.craftlogic.api.text.Text;
+import ru.craftlogic.economy.client.render.TileEntityTradingPostRenderer;
 import ru.craftlogic.economy.common.ProxyCommon;
+import ru.craftlogic.economy.common.tile.TileEntityTradingPost;
 import ru.craftlogic.economy.network.message.MessageBalance;
 import ru.craftlogic.util.ReflectiveUsage;
 
@@ -35,6 +38,7 @@ public class ProxyClient extends ProxyCommon {
     @Override
     public void postInit() {
         super.postInit();
+        CraftTileEntities.registerTileEntityRenderer(TileEntityTradingPost.class, TileEntityTradingPostRenderer::new);
     }
 
     @Override
