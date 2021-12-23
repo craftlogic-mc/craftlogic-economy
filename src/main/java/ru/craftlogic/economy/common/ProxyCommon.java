@@ -1,6 +1,7 @@
 package ru.craftlogic.economy.common;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,6 +18,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import ru.craftlogic.api.event.server.ServerAddManagersEvent;
 import ru.craftlogic.api.network.AdvancedMessage;
 import ru.craftlogic.api.network.AdvancedMessageHandler;
+import ru.craftlogic.api.server.Server;
 import ru.craftlogic.api.world.Player;
 import ru.craftlogic.economy.EconomyManager;
 import ru.craftlogic.economy.common.block.BlockTradingPost;
@@ -58,18 +60,20 @@ public class ProxyCommon extends AdvancedMessageHandler {
     @SubscribeEvent
     public void onZombieKilled(LivingDeathEvent event) {
         EntityLivingBase living = event.getEntityLiving();
-        if (!living.world.isRemote && living instanceof EntityZombie && event.getSource() instanceof EntityDamageSource) {
-            EntityDamageSource source = (EntityDamageSource) event.getSource();
-            Random rand = new Random();
-            if (source.damageType.equals("player") && rand.nextInt(5) == 0) {
-                EntityPlayerMP killer = (EntityPlayerMP) source.getTrueSource();
-                if (killer != null) {
-                    Player player = Player.from(killer);
-                    if (player != null) {
-                        EconomyManager economyManager = (EconomyManager) player.getServer().getEconomyManager();
-                        if (economyManager.isEnabled()) {
-                            float money = economyManager.roundUpToFormat(rand.nextFloat() * 0.9F + 0.1F);
-                            economyManager.give(player, money);
+        if (!living.world.isRemote && event.getSource() instanceof EntityDamageSource) {
+            EconomyManager economyManager = (EconomyManager) Server.from(living.world.getMinecraftServer()).getEconomyManager();
+            if (economyManager.isEnabled()) {
+                ResourceLocation id = EntityList.getKey(living);
+                float money = economyManager.drops.getOrDefault(id, 0f);
+                if (money > 0) {
+                    EntityDamageSource source = (EntityDamageSource) event.getSource();
+                    if (source.damageType.equals("player") /*&& rand.nextInt(5) == 0*/) {
+                        EntityPlayerMP killer = (EntityPlayerMP) source.getTrueSource();
+                        if (killer != null) {
+                            Player player = Player.from(killer);
+                            if (player != null) {
+                                economyManager.give(player, money);
+                            }
                         }
                     }
                 }

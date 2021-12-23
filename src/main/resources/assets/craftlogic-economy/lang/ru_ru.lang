@@ -8,6 +8,7 @@ commands.economy.set=Баланс игрока %s установлен на %s
 commands.economy.given=Зачислено %s на счёт игрока %s
 commands.economy.taken=Снято %s со счёта игрока %s
 commands.economy.usage=/eco <give|take|set> <игрок> <сумма>
+commands.economy.drops.set=Установлен дроп денег для %s в размере %s
 
 commands.pay.sent=Вы отправили %s игроку %s
 commands.pay.received=Вы получили %s от игрока %s

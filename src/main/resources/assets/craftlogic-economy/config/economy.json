@@ -1,4 +1,7 @@
 {
   "enabled": true,
-  "currency": "\u2B16"
+  "currency": "\u2B16",
+  "drops": {
+    "zombie": 40
+  }
 }

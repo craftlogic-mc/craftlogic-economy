@@ -8,6 +8,7 @@ commands.economy.set=Set %s's balance to %s
 commands.economy.given=Given %s to %s' account
 commands.economy.taken=Taken %s from %s' account
 commands.economy.usage=/eco <give|take|set> <player> <sum>
+commands.economy.drops.set=Set money drop for %s to %s
 
 commands.pay.sent=You have sent %s to %s
 commands.pay.received=You have received %s from %s
